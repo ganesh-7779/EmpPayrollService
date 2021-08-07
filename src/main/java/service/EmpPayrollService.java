@@ -7,10 +7,18 @@
  ******************************************************/
 package service;
 
+import exception.EmpPayrollValidation;
 import model.EmployeePayrollData;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class EmpPayrollService {
     private List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
@@ -49,5 +57,94 @@ public class EmpPayrollService {
      */
     public void writeToConsole() {
         System.out.println(employeePayrollList);
+    }
+
+    /**
+     * Method for deleting file form directory.
+     * @param contentToDelete :
+     * @return : tru or false
+     */
+    public boolean deleteFile(File contentToDelete) {
+        File [] allContent = contentToDelete.listFiles();
+        if(allContent != null)
+            for (File file : allContent){
+                deleteFile(file);
+            }
+        return contentToDelete.delete();
+    }
+
+    /**
+     * Method for delete files recursively  from a directory.
+     * @param address : directory path
+     * @return : true or false
+     */
+    public boolean deleteFilesRecursively(String address) {
+        Path playPath = Paths.get(address);
+        if (Files.exists(playPath))
+            deleteFile(playPath.toFile());
+        return Files.notExists(playPath);
+    }
+
+    /**
+     * Method for checking if file of directory and file is exists or not.
+     * @return : true or false
+     */
+    public boolean isExists(String address) {
+        Path homePath = Paths.get(address);
+        if (Files.exists(homePath)) {
+            System.out.println(homePath + " Path is Exists");
+        }
+        return Files.exists(homePath);
+    }
+
+    /**
+     * Method for creating directory.
+     * @param address : path wtth directory name
+     * @return : true or false
+     * @throws IOException
+     */
+    public boolean createDirectory(String address) throws IOException{
+        Path playPath = Paths.get(address);
+        //create directory
+        Files.createDirectory(playPath);
+        if(Files.exists(playPath))
+            System.out.println(playPath + "Is Created");
+        return Files.exists(playPath);
+    }
+
+    /**
+     * Method for creating file in a particular directory.
+     *
+     * @param address  : path of directory
+     * @param fileName : file name
+     * @return : true or false
+     * @throws EmpPayrollValidation
+     */
+    public boolean createFile(String address, String fileName) throws EmpPayrollValidation {
+        Path tempFile = Paths.get(address + "/" + fileName);
+        try {
+            Files.createFile(tempFile);
+            System.out.println(tempFile);
+        } catch (IOException e) {
+            throw new EmpPayrollValidation(e.getMessage());
+        }
+        return Files.exists(tempFile);
+    }
+
+    /**
+     * Method for find out the total files and folder at a particular directory.
+     * @param path : path for a directory
+     * @return : count of file and folders exists.
+     * @throws EmpPayrollValidation
+     */
+    public int listFileAndDirectories(String path) throws EmpPayrollValidation {
+        Path playPath = Paths.get(path);
+        try {
+            List<Path> elementsList = Files.list(playPath).filter(Files::isRegularFile).collect(Collectors.toList());
+            elementsList.stream().forEach(e -> System.out.println(e));
+            return elementsList.size();
+        } catch (Exception e) {
+            throw new EmpPayrollValidation(e.getMessage());
+        }
     }
 }
