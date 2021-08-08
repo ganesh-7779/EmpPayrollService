@@ -165,6 +165,19 @@ public class EmpPayrollService {
             e.printStackTrace();
         }
     }
+
+    public void readFromFile() {
+        try {
+            FileInputStream readData = new FileInputStream("Input.txt");
+            ObjectInputStream ObjectStream = new ObjectInputStream(readData);
+            ArrayList<EmployeePayrollData> newList = (ArrayList<EmployeePayrollData>) ObjectStream.readObject();
+            ObjectStream.close();
+            System.out.println(newList);
+            System.out.println("Number Of entries :" + newList.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
