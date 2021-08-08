@@ -19,7 +19,8 @@ public class EmpPayrollServiceMain {
         Scanner sc = new Scanner(System.in);
         boolean isExit = false;
         while(!isExit) {
-            System.out.print("Enter options\n1.ReadFromConsole\n2.PrintOnConsole\n3.Exit");
+            System.out.print("Enter options\n1.Read From Console\n2.Print On Console\n3.Write To File" +
+                    "\n4.Read From File\n5.Exit");
             int choice =sc.nextInt();
             switch(choice) {
                 case 1:
@@ -29,6 +30,12 @@ public class EmpPayrollServiceMain {
                     empservice.writeToConsole();
                     break;
                 case 3:
+                    empservice.writeToFile();
+                    break;
+                case 4:
+                    empservice.readFromFile();
+                    break;
+                case 5:
                     isExit = true;
                     break;
                 default :
