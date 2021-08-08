@@ -4,11 +4,14 @@ import exception.EmpPayrollValidation;
 import org.junit.Before;
 import org.junit.Test;
 import service.EmpPayrollService;
+import service.Java8WatchServiceExample;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.IntStream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -22,7 +25,7 @@ public class EmpPayrollServiceTest {
 
     @Test
     public void listFilesAndDirectories_shouldReturnFilesCount_whenPathIsProvided() throws EmpPayrollValidation {
-        int result = employeePayrollService.listFileAndDirectories("D:\\BridgeLabs Training\\demo");
+        int result = employeePayrollService.listFileAndDirectories("D://BridgeLabs Training//demo");
         assertEquals(3,result);
     }
 
@@ -30,7 +33,7 @@ public class EmpPayrollServiceTest {
     public void givenPathWhenCheckedThenConfirm() throws IOException {
 
         //check file exists
-        Path playPath = Paths.get("D:\\BridgeLabs Training\\demo2");
+        Path playPath = Paths.get("D://BridgeLabs Training//demo2");
         assertTrue(Files.exists(playPath));
 
         //Delete file and check file not exists
