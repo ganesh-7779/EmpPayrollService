@@ -8,7 +8,9 @@
  ***************************************************************/
 package model;
 
-public class EmployeePayrollData {
+import java.io.Serializable;
+
+public class EmployeePayrollData implements Serializable {
     public int id;
     public String name;
     public double salary;
